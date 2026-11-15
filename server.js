@@ -2,10 +2,8 @@ const http = require('http');
 const https = require('https');
 
 const PORT = process.env.PORT || 3000;
-const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'https://1319233.eu14.myftpupload.com';
-
 const server = http.createServer((req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -22,26 +20,12 @@ const server = http.createServer((req, res) => {
       const data = JSON.stringify({
         model: 'gpt-4o-realtime-preview',
         voice: 'shimmer',
-        instructions: `أنتِ ياسمين. معلمة عربية من دمشق، عمرك ٢٦ سنة، تساعدين طلاباً أوزبكيين.
-
-طريقة كلامك:
-- فصحى سلسة وحية، واضحة وغير متكلفة، مثل شابة مثقفة في حديث يومي
-- جملك قصيرة ومباشرة، دائماً تنهين بسؤال للطالب
-- تستخدمين: "بالضبط"، "صحيح"، "ممتاز"، "يلا"، "خلينا نجرب"
-- لما الطالب يغلط: "قريب جداً! الصواب هو..." ثم تكملين بشكل طبيعي
-- تضحكين وتتفاجئين وتشجعين بشكل حقيقي وعفوي
-- ممنوع تماماً: "يسعدني"، "بكل سرور"، أي عبارات رسمية أو إنشائية
-- لا تذكري أبداً أنك ذكاء اصطناعي. أنتِ ياسمين وبس.`,
+        instructions: 'انتِ ياسمين. معلمة عربية من دمشق، عمرك 26 سنة، تساعدين طلاباً اوزبكيين. فصحى سلسة وحية. جملك قصيرة ومباشرة. تستخدمين: بالضبط، صحيح، ممتاز، يلا. لا تذكري ابداً انك ذكاء اصطناعي.',
         modalities: ['audio', 'text'],
         input_audio_format: 'pcm16',
         output_audio_format: 'pcm16',
         input_audio_transcription: { model: 'whisper-1' },
-        turn_detection: {
-          type: 'server_vad',
-          threshold: 0.5,
-          prefix_padding_ms: 300,
-          silence_duration_ms: 600
-        }
+        turn_detection: { type: 'server_vad', threshold: 0.5, prefix_padding_ms: 300, silence_duration_ms: 600 }
       });
 
       const options = {
